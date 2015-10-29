@@ -39,8 +39,8 @@ tar -xzvf "php-${php_version}.tar.gz"
 echo "-----> Downloading dependencies (libmcrypt, libicu)"
 
 mkdir -p "/app/vendor/php/zlib" "/app/vendor/libmcrypt" "/app/vendor/libicu"
-curl "http://${S3_BUCKET}.s3.amazonaws.com/package/libicu-51.tgz" | tar xzv -C /app/vendor/libicu
-curl "http://${S3_BUCKET}.s3.amazonaws.com/package/libmcrypt-${mcrypt_version}.tgz" | tar xzv -C /app/vendor/libmcrypt
+curl "http://${S3_BUCKET}.s3.amazonaws.com/${STACK}/package/libicu-51.tgz" | tar xzv -C /app/vendor/libicu
+curl "http://${S3_BUCKET}.s3.amazonaws.com/${STACK}/package/libmcrypt-${mcrypt_version}.tgz" | tar xzv -C /app/vendor/libmcrypt
 export LD_LIBRARY_PATH=/app/vendor/libicu/lib
 export PATH="/app/vendor/libicu/bin:$PATH"
 
