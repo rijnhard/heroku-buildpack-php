@@ -29,7 +29,7 @@ cd $tempdir
 
 echo "-----> Downloading dependency zlib ${zlib_version}"
 
-curl -LO "http://$S3_BUCKET.s3.amazonaws.com/zlib/zlib-${PHP_ZLIB_VERSION}.tar.gz"
+curl -LO "http://${S3_BUCKET}.s3.amazonaws.com/${STACK}/zlib/zlib-${PHP_ZLIB_VERSION}.tar.gz"
 tar -xzvf "zlib-${PHP_ZLIB_VERSION}.tar.gz"
 
 echo "-----> Downloading PHP $php_version"
@@ -62,9 +62,9 @@ cd php-${php_version}
     --with-config-file-scan-dir=/app/vendor/php/etc/conf.d \
     --enable-intl \
     --with-gd \
-    --with-mysql \
-    --with-mysqli \
-    --with-pdo-mysql \
+    --with-mysql=mysqlnd \
+    --with-mysqli=mysqlnd \
+    --with-pdo-mysql=mysqlnd \
     --with-pdo-sqlite \
     --with-pdo-pgsql=/usr/bin/pg_config \
     --with-pgsql \
