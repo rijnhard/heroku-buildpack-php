@@ -59,7 +59,7 @@ build_ext() {
     s3cmd put --verbose \
         --acl-public \
         "$tempdir/php-${ext_name}.tgz" \
-        "s3://$S3_BUCKET/package/ext/${zend_api_version}/php-${ext_name}.tgz"
+        "s3://${S3_BUCKET}/${STACK}/package/ext/${zend_api_version}/php-${ext_name}.tgz"
 
     "$basedir/package-checksum" "ext/${zend_api_version}/php-${ext_name}"
 }

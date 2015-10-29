@@ -64,12 +64,12 @@ tar czf "$tempdir/nginx-${nginx_version}.tgz" *
 
 popd
 
-echo "-----> Uploading package to s3://$S3_BUCKET/package/nginx-${nginx_version}.tgz"
+echo "-----> Uploading package to s3://${S3_BUCKET}/${STACK}/package/nginx-${nginx_version}.tgz"
 
 s3cmd put --verbose \
     --acl-public \
     "$tempdir/nginx-${nginx_version}.tgz" \
-    "s3://$S3_BUCKET/package/nginx-${nginx_version}.tgz"
+    "s3://${S3_BUCKET}/${STACK}/package/nginx-${nginx_version}.tgz"
 
 "$basedir/manifest" nginx
 "$basedir/package-checksum" "nginx-${nginx_version}"

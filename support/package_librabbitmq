@@ -46,6 +46,6 @@ popd
 s3cmd put \
     --verbose --acl-public \
     "$tempdir/librabbitmq-${rabbitmq_version}.tgz" \
-    "s3://$S3_BUCKET/package/librabbitmq-${rabbitmq_version}.tgz"
+    "s3://${S3_BUCKET}/${STACK}/package/librabbitmq-${rabbitmq_version}.tgz"
 
 "$basedir/package-checksum" "librabbitmq-${rabbitmq_version}"

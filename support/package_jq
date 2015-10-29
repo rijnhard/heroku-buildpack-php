@@ -13,4 +13,4 @@ cd $tempdir
 
 echo "----> Vendoring 'jq'"
 curl -L http://stedolan.github.io/jq/download/linux64/jq > jq
-s3cmd put --verbose --acl-public ./jq s3://$S3_BUCKET/jq/jq
+s3cmd put --verbose --acl-public ./jq s3://${S3_BUCKET}/${STACK}/jq/jq

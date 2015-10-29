@@ -117,7 +117,7 @@ echo "-----> Moving package to S3"
 s3cmd put \
     --verbose --acl-public \
     "$tempdir/php-${php_version}.tgz" \
-    "s3://$S3_BUCKET/package/php-${php_version}.tgz"
+    "s3://${S3_BUCKET}/${STACK}/package/php-${php_version}.tgz"
 
 "$basedir/manifest" php
 "$basedir/package-checksum" "php-${php_version}"

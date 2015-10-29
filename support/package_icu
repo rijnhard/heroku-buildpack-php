@@ -43,6 +43,6 @@ popd
 s3cmd put \
     --verbose --acl-public \
     "$tempdir/libicu-51.tgz" \
-    "s3://$S3_BUCKET/package/libicu-51.tgz"
+    "s3://${S3_BUCKET}/${STACK}/package/libicu-51.tgz"
 
 "$basedir/package-checksum" "libicu-51"

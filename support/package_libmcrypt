@@ -48,6 +48,6 @@ popd
 s3cmd put \
     --verbose --acl-public \
     "$tempdir/libmcrypt-${mcrypt_version}.tgz" \
-    "s3://$S3_BUCKET/package/libmcrypt-${mcrypt_version}.tgz"
+    "s3://${S3_BUCKET}/${STACK}/package/libmcrypt-${mcrypt_version}.tgz"
 
 "$basedir/package-checksum" "libmcrypt-${mcrypt_version}"

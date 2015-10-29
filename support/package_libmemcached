@@ -41,7 +41,7 @@ tar czf "$tempdir/libmemcached-${memcached_version}.tgz" *
 
 popd
 
-s3_path=s3://$S3_BUCKET/package/libmemcached-${memcached_version}.tgz
+s3_path=s3://${S3_BUCKET}/${STACK}/package/libmemcached-${memcached_version}.tgz
 
 echo "-----> Uploading package to ${s3_path}"
 

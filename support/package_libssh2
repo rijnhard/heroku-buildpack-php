@@ -44,6 +44,6 @@ popd
 s3cmd put \
     --verbose --acl-public \
     "$tempdir/libssh2-${libssh2_version}.tgz" \
-    "s3://$S3_BUCKET/package/libssh2-${libssh2_version}.tgz"
+    "s3://${S3_BUCKET}/${STACK}/package/libssh2-${libssh2_version}.tgz"
 
 "$basedir/package-checksum" "libssh2-${libssh2_version}"
