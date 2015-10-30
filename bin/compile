@@ -39,6 +39,7 @@ set -o pipefail
 set -eu
 # move hidden files too, just in case
 shopt -s dotglob
+set -x
 
 STACK=${STACK:-cedar} # Anvil has none
 BUILD_DIR=$1
