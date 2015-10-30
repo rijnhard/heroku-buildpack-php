@@ -5,10 +5,10 @@ set -o pipefail
 
 mongo_version="1.4.4"
 
-curl -L "https://github.com/mongodb/mongo-php-driver/archive/${mongo_version}.tar.gz" \
+curl -L "https://github.com/mongodb/mongo-php-driver-legacy/archive/${mongo_version}.tar.gz" \
     | tar xzv
 
-cd mongo-php-driver-${mongo_version}
+cd mongo-php-driver-legacy-${mongo_version}
 /app/vendor/php/bin/phpize
 ./configure --with-php-config=/app/vendor/php/bin/php-config \
             --enable-mongo
