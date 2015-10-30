@@ -7,7 +7,8 @@ install_ext () {
     local reason=${2:-}
     local ext_ini="$BP_DIR/conf/php/conf.d/ext-$ext.ini"
     local ext_so=
-    local ext_dir=$(php-config --extension-dir)
+    # local ext_dir=$(php-config --extension-dir)
+    local ext_dir="/app/.heroku/php/lib/php/extensions/no-debug-non-zts-20121212"
     local ext_api=$(basename $ext_dir)
     if [[ -f "$ext_ini" ]]; then
         ext_so=$(php -r '$ini=parse_ini_file("'$ext_ini'"); echo $ext=$ini["zend_extension"]?:$ini["extension"]; exit((int)empty($ext));') # read .so name from .ini because e.g. opcache.so is named "zend-opcache"
