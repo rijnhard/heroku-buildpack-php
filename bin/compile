@@ -228,8 +228,10 @@ if [[ "${HHVM_VERSION}" ]]; then
     export -f hhvm
 fi
 
+cat $BUILD_DIR/.heroku/php/bin/php-config
 sed -r -i 's|prefix="(.+)"|prefix="/app/.heroku/php"|g' $BUILD_DIR/.heroku/php/bin/php-config
 sed -r -i "s|extension_dir='(.+)/.heroku/php/lib/php/(.+)'|extension_dir='/app/.heroku/php/lib/php/\1'|g" $BUILD_DIR/.heroku/php/bin/php-config
+cat $BUILD_DIR/.heroku/php/bin/php-config
 
 APACHE_VERSION="2.4.17"
 APACHE_DIST_URL="$S3_URL/apache-$APACHE_VERSION.tar.gz"
