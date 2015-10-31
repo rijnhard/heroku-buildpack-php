@@ -3,6 +3,13 @@
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
 install_ext () {
+cat $BUILD_DIR/.heroku/php/bin/php-config
+sed -r -i 's|prefix="(.+)"|prefix="/app/.heroku/php"|g' $BUILD_DIR/.heroku/php/bin/php-config
+sed -r -i "s|extension_dir='(.+)/.heroku/php/lib/php/(.+)'|extension_dir='/app/.heroku/php/lib/php/\2'|g" $BUILD_DIR/.heroku/php/bin/php-config
+cat $BUILD_DIR/.heroku/php/bin/php-config
+
+php-config --extension-dir
+
     local ext=$1
     local reason=${2:-}
     local ext_ini="$BP_DIR/conf/php/conf.d/ext-$ext.ini"
@@ -227,11 +234,6 @@ if [[ "${HHVM_VERSION}" ]]; then
     hhvm() { LD_LIBRARY_PATH=/app/.heroku/php/usr/lib/x86_64-linux-gnu:/app/.heroku/php/usr/lib/hhvm:/app/.heroku/php/usr/lib `which hhvm` "$@"; }
     export -f hhvm
 fi
-
-cat $BUILD_DIR/.heroku/php/bin/php-config
-sed -r -i 's|prefix="(.+)"|prefix="/app/.heroku/php"|g' $BUILD_DIR/.heroku/php/bin/php-config
-sed -r -i "s|extension_dir='(.+)/.heroku/php/lib/php/(.+)'|extension_dir='/app/.heroku/php/lib/php/\1'|g" $BUILD_DIR/.heroku/php/bin/php-config
-cat $BUILD_DIR/.heroku/php/bin/php-config
 
 APACHE_VERSION="2.4.17"
 APACHE_DIST_URL="$S3_URL/apache-$APACHE_VERSION.tar.gz"
