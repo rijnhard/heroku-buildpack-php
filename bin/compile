@@ -38,6 +38,8 @@ php-config --extension-dir
     else
         warning_inline "Unknown extension ${ext} (${reason}), install may fail!"
     fi
+
+    echo "extension_dir = \"/app/.heroku/php/lib/php/extensions/$ext_api\"" > $BUILD_DIR/.heroku/php/etc/php/conf.d/extensions.ini
 }
 
 # fail hard
@@ -47,6 +49,9 @@ set -eu
 # move hidden files too, just in case
 shopt -s dotglob
 set -x
+
+export PHPRC=$BUILD_DIR/.heroku/php/etc/php
+export PHP_INI_SCAN_DIR=$BUILD_DIR/.heroku/php/etc/php/conf.d
 
 STACK=${STACK:-cedar} # Anvil has none
 BUILD_DIR=$1
