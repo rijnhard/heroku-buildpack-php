@@ -49,6 +49,7 @@ BP_DIR=$(cd $(dirname $0); cd ..; pwd)
 
 # convenience functions
 source $BP_DIR/bin/util/common.sh
+source $BP_DIR/bin/util/buildcurl.sh
 
 # for extensions that need special treatment
 source $BP_DIR/bin/util/newrelic.sh
@@ -202,7 +203,7 @@ export PATH=/app/.heroku/php/bin:$PATH
 if [[ "${PHP_VERSION}" ]]; then
     PHP_DIST_URL="$S3_URL/php-$PHP_VERSION.tar.gz"
     echo "- PHP $PHP_VERSION" | indent
-    curl --silent --location "$PHP_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
+    buildcurl "$PHP_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
     # update config files
     mkdir -p $BUILD_DIR/.heroku/php/etc/php
     cp $BP_DIR/conf/php/php.ini $BUILD_DIR/.heroku/php/etc/php
@@ -215,7 +216,7 @@ fi
 if [[ "${HHVM_VERSION}" ]]; then
     HHVM_DIST_URL="$S3_URL/hhvm-$HHVM_VERSION.tar.gz"
     echo "- HHVM $HHVM_VERSION" | indent
-    curl --silent --location "$HHVM_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
+    buildcurl "$HHVM_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
     # store HHVM version in the slug for possible later evaluation
     mkdir -p $BUILD_DIR/.heroku/php/.versions/hhvm
     echo $HHVM_VERSION > $BUILD_DIR/.heroku/php/.versions/hhvm/hhvm
@@ -229,7 +230,7 @@ fi
 APACHE_VERSION="2.4.17"
 APACHE_DIST_URL="$S3_URL/apache-$APACHE_VERSION.tar.gz"
 echo "- Apache $APACHE_VERSION" | indent
-curl --silent --location "$APACHE_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
+buildcurl "$APACHE_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
 # Apache; copy in our config
 cp $BP_DIR/conf/apache2/httpd.conf.default $BUILD_DIR/.heroku/php/etc/apache2/httpd.conf
 # store Apache version in the slug for possible later evaluation
@@ -239,7 +240,7 @@ echo $APACHE_VERSION > $BUILD_DIR/.heroku/php/.versions/apache2/apache2
 NGINX_VERSION="1.8.0"
 NGINX_DIST_URL="$S3_URL/nginx-$NGINX_VERSION.tar.gz"
 echo "- Nginx $NGINX_VERSION" | indent
-curl --silent --location "$NGINX_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
+buildcurl "$NGINX_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
 # nginx; copy in our config
 cp $BP_DIR/conf/nginx/nginx.conf.default $BUILD_DIR/.heroku/php/etc/nginx/nginx.conf
 # store Nginx version in the slug for possible later evaluation
@@ -292,7 +293,7 @@ if [[ -f "composer.phar" ]]; then
     composer --version 2>&1 | grep "^Composer version" > /dev/null || error "File '/composer.phar' is not a Composer executable!"
     notice_inline "Using '/composer.phar' to install dependencies."
 else
-    curl --silent --location "$S3_URL/composer.tar.gz" | tar xz -C $BUILD_DIR/.heroku/php
+    buildcurl "$S3_URL/composer.tar.gz" | tar xz -C $BUILD_DIR/.heroku/php
     composer() {
         $engine `which composer` "$@"
     }
