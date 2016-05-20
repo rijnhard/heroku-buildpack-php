@@ -8,9 +8,9 @@ buildcurl() {
 	mkdir -p "$cache_dir"
 	if [ ! -f $cache_dir/$binary.tar.gz ]; then
 		echo "         Compiling $binary for the first time will take a few minutes..." 1>&2
-		curl -sSL --fail --get --retry 3 ${BUILDCURL_URL:="buildcurl.com"} \
+		curl -sSL --get --retry 3 ${BUILDCURL_URL:="buildcurl.com"} \
 			-d recipe=$recipe -d version=$version -d target=$TARGET -d prefix=$out_prefix \
-			-o $output || ( cat $output 1>&2 && exit 1 )
+			-o $output && gunzip -t $output &>/dev/null || ( cat $output 1>&2 && exit 1 )
 		mv $output $cache_dir/$binary.tar.gz
 	fi
 	cat $cache_dir/$binary.tar.gz
