@@ -92,18 +92,14 @@ if [[ "${HEROKU_PHP_PLATFORM_REPOSITORIES}" == *" - "* ]]; then
 	notice_inline "Bootstrapping using ${s3_url}..."
 fi
 
-
 # minimal PHP needed for installs, and make "composer" invocations use that for now
 mkdir -p $build_dir/.heroku/php-min
 ln -s $build_dir/.heroku/php-min /app/.heroku/php-min
 
-buildcurl --silent --location -o $build_dir/.heroku/php-min.tar.gz "${s3_url}php-min-7.0.10.tar.gz" || error "Failed to download minimal PHP for bootstrapping.
-Please try again, or contact support if this problem persists."
-tar xzf $build_dir/.heroku/php-min.tar.gz -C $build_dir/.heroku/php-min
+buildcurl "${s3_url}php-min-7.0.10.tar.gz" | tar xz -C $build_dir/.heroku/php-min
 rm $build_dir/.heroku/php-min.tar.gz
 
-buildcurl --silent --location -o $build_dir/.heroku/composer.tar.gz "${s3_url}composer-1.2.0.tar.gz" || error "Failed to download Composer. Please try again, or contact support if this problem persists."
-tar xzf $build_dir/.heroku/composer.tar.gz -C $build_dir/.heroku/php
+buildcurl "${s3_url}composer-1.2.0.tar.gz" | tar xz -C $build_dir/.heroku/composer
 rm $build_dir/.heroku/composer.tar.gz
 
 # this alias is just for now while we install platform packages
@@ -207,7 +203,7 @@ if [[ -f "composer.phar" ]]; then
     composer --version 2>&1 | grep "^Composer version" > /dev/null || error "File '/composer.phar' is not a Composer executable!"
     notice_inline "Using '/composer.phar' to install dependencies."
 else
-    curl --silent --location "$S3_URL/composer.tar.gz" | tar xz -C $BUILD_DIR/.heroku/php
+    buildcurl "$S3_URL/composer.tar.gz" | tar xz -C $BUILD_DIR/.heroku/php
     composer() {
         $engine `which composer` "$@"
     }
