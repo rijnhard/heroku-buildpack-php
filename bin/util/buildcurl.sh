@@ -3,7 +3,7 @@ buildcurl() {
 	local binary=$(basename $1 .tar.gz)
 	local recipe=${binary/-*/}
 	local version=${binary/*-/}
-	local out_prefix="/app/.heroku/php"
+	local out_prefix="$build_dir/.heroku/php"
 	local output=$(mktemp)
 	mkdir -p "$cache_dir"
 	if [ ! -f $cache_dir/$binary.tar.gz ]; then
