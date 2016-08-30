@@ -97,10 +97,7 @@ mkdir -p $build_dir/.heroku/php-min
 ln -s $build_dir/.heroku/php-min /app/.heroku/php-min
 
 buildcurl "${s3_url}php-min-7.0.10.tar.gz" | tar xz -C $build_dir/.heroku/php-min
-rm $build_dir/.heroku/php-min.tar.gz
-
 buildcurl "${s3_url}composer-1.2.0.tar.gz" | tar xz -C $build_dir/.heroku/composer
-rm $build_dir/.heroku/composer.tar.gz
 
 # this alias is just for now while we install platform packages
 composer() {
