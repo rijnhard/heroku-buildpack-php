@@ -94,10 +94,12 @@ fi
 
 # minimal PHP needed for installs, and make "composer" invocations use that for now
 mkdir -p $build_dir/.heroku/php-min
-#ln -s $build_dir/.heroku/php-min /app/.heroku/php-min
+ln -s $build_dir/.heroku/php-min /app/.heroku/php-min
 
 buildcurl "${s3_url}php-min-7.0.10.tar.gz" "$build_dir/.heroku/php-min" | tar xz -C $build_dir/.heroku/php-min
-buildcurl "${s3_url}composer-1.2.0.tar.gz" "$build_dir/.heroku/php" | tar xz -C $build_dir/.heroku/php
+
+#Composer does not need to be be built. just download it.
+cachecurl "${s3_url}composer-1.2.0.tar.gz" | tar xz -C $build_dir/.heroku/php
 
 # this alias is just for now while we install platform packages
 composer() {
