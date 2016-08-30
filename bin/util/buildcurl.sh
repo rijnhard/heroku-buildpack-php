@@ -5,6 +5,8 @@ buildcurl() {
 	local version=${binary/*-/}
 	local out_prefix="$build_dir/.heroku/php"
 	local output=$(mktemp)
+
+	status "Buildcurl ($1) for binary:$binary output:$output to out_prefix:$out_prefix"
 	mkdir -p "$cache_dir"
 	if [ ! -f $cache_dir/$binary.tar.gz ]; then
 		echo "         Compiling $binary for the first time will take a few minutes..." 1>&2
