@@ -3,7 +3,7 @@ buildcurl() {
 	local binary=$(basename $1 .tar.gz)
 	local recipe=${binary/-*/}
 	local version=${binary/*-/}
-	local out_prefix="$build_dir/.heroku/php"
+	local out_prefix="$2"
 	local output=$(mktemp)
 
 	echo "Buildcurl ($1) for binary:$binary output:$output to out_prefix:$out_prefix" 1>&2
