@@ -1,5 +1,5 @@
 buildcurl() {
-	local cache_dir="$CACHE_DIR/buildcurl"
+	local cache_dir="$cache_dir/buildcurl"
 	local binary=$(basename $1 .tar.gz)
 	local recipe=${binary/-*/}
 	local version=${binary/*-/}
