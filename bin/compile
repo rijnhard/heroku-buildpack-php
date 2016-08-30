@@ -97,7 +97,7 @@ mkdir -p $build_dir/.heroku/php-min
 #ln -s $build_dir/.heroku/php-min /app/.heroku/php-min
 
 buildcurl "${s3_url}php-min-7.0.10.tar.gz" "$build_dir/.heroku/php-min" | tar xz -C $build_dir/.heroku/php-min
-buildcurl "${s3_url}composer-1.2.0.tar.gz" "$build_dir/.heroku/composer" | tar xz -C $build_dir/.heroku/composer
+buildcurl "${s3_url}composer-1.2.0.tar.gz" "$build_dir/.heroku/php" | tar xz -C $build_dir/.heroku/php
 
 # this alias is just for now while we install platform packages
 composer() {
@@ -199,12 +199,6 @@ if [[ -f "composer.phar" ]]; then
     export -f composer
     composer --version 2>&1 | grep "^Composer version" > /dev/null || error "File '/composer.phar' is not a Composer executable!"
     notice_inline "Using '/composer.phar' to install dependencies."
-else
-    buildcurl "$S3_URL/composer.tar.gz" "$build_dir/.heroku/php" | tar xz -C $build_dir/.heroku/php
-    composer() {
-        $engine `which composer` "$@"
-    }
-    export -f composer
 fi
 # echo composer version for info purposes
 # tail to get rid of outdated version warnings (Composer sends those to STDOUT instead of STDERR)
