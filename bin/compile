@@ -41,6 +41,7 @@ set -eu
 shopt -s dotglob
 
 STACK=${STACK:-cedar} # Anvil has none
+COMPOSER_VERSION="1.6.3"
 BUILD_DIR=$1
 CACHE_DIR=$2/php
 mkdir -p "$CACHE_DIR"
@@ -293,7 +294,7 @@ if [[ -f "composer.phar" ]]; then
     composer --version 2>&1 | grep "^Composer version" > /dev/null || error "File '/composer.phar' is not a Composer executable!"
     notice_inline "Using '/composer.phar' to install dependencies."
 else
-    buildcurl "$S3_URL/composer-1.2.0.tar.gz" | tar xz -C $BUILD_DIR/.heroku/php
+    buildcurl "$S3_URL/composer-${COMPOSER_VERSION}.tar.gz" | tar xz -C $BUILD_DIR/.heroku/php
     composer() {
         $engine `which composer` "$@"
     }
