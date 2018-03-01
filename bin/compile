@@ -235,15 +235,15 @@ if [[ "${HHVM_VERSION}" ]]; then
 fi
 
 # todo split apache and nginx
-
-APACHE_DIST_URL="$S3_URL/apache-$APACHE_VERSION.tar.gz"
-echo "- Apache $APACHE_VERSION" | indent
-buildcurl "$APACHE_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
-# Apache; copy in our config
-cp $BP_DIR/conf/apache2/httpd.conf.default $BUILD_DIR/.heroku/php/etc/apache2/httpd.conf
-# store Apache version in the slug for possible later evaluation
-mkdir -p $BUILD_DIR/.heroku/php/.versions/apache2
-echo $APACHE_VERSION > $BUILD_DIR/.heroku/php/.versions/apache2/apache2
+# teleforge, hacked this out since we dont need it
+# APACHE_DIST_URL="$S3_URL/apache-$APACHE_VERSION.tar.gz"
+# echo "- Apache $APACHE_VERSION" | indent
+# buildcurl "$APACHE_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
+# # Apache; copy in our config
+# cp $BP_DIR/conf/apache2/httpd.conf.default $BUILD_DIR/.heroku/php/etc/apache2/httpd.conf
+# # store Apache version in the slug for possible later evaluation
+# mkdir -p $BUILD_DIR/.heroku/php/.versions/apache2
+# echo $APACHE_VERSION > $BUILD_DIR/.heroku/php/.versions/apache2/apache2
 
 NGINX_DIST_URL="$S3_URL/nginx-$NGINX_VERSION.tar.gz"
 echo "- Nginx $NGINX_VERSION" | indent
