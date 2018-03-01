@@ -3,7 +3,3 @@
 # Build Deps: php-5.5.38
 
 DEFAULT_VERSION="4.0.11"
-CONFIGURE_EXTRA=--enable-apcu
-
-dep_name=$(basename $BASH_SOURCE)
-source $(dirname $BASH_SOURCE)/../pecl

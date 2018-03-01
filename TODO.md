@@ -17,4 +17,7 @@
     * `pq`
     * `raphf`
     * `rdkafka`
-    * `ctwig`
+    * `ctwig`  
+* re-enable apache
+    * package nginx and apache only if they have a command in the Procfile
+* strip unneeded files
