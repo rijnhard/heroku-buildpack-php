@@ -29,7 +29,10 @@ buildcurl() {
 	if [ ! -f $cache_dir/$binary.tar.gz ]; then
 		echo "         Compiling $binary for the first time will take a few minutes..." 1>&2
 		curl -L --get --retry 3 ${BUILDCURL_URL:="buildcurl.com"} \
-			-d recipe=$recipe -d version=$version -d target=$TARGET -d prefix=$out_prefix \
+			--data-urlencode recipe=$recipe \
+			--data-urlencode version=$version \
+			--data-urlencode target=$TARGET \
+            --data-urlencode prefix=$out_prefix \
 			-o $output
 
 		gunzip -t $output &>/dev/null || ( cat $output 1>&2 && exit 1 )
