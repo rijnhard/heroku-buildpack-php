@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
+# Build Path: /app/.heroku/php/
+# Build Deps: php-5.5.38
+
+DEFAULT_VERSION="1.2.3"
+CONFIGURE_EXTRA=--enable-oauth
 
 dep_name=$(basename $BASH_SOURCE)
-
 source $(dirname $BASH_SOURCE)/../pecl

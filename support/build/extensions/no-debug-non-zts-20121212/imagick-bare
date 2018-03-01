@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Build Path: /app/.heroku/php/
+# Build Deps: php-5.5.38, libraries/imagemagick
+
+DEFAULT_VERSION="3.4.3"
+CONFIGURE_EXTRA=--with-imagick=${OUT_PREFIX}
+
+dep_name=imagick
+source $(dirname $BASH_SOURCE)/../pecl
