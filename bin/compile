@@ -234,7 +234,7 @@ if [[ "${HHVM_VERSION}" ]]; then
     export -f hhvm
 fi
 
-// todo split apache and nginx
+# todo split apache and nginx
 
 APACHE_DIST_URL="$S3_URL/apache-$APACHE_VERSION.tar.gz"
 echo "- Apache $APACHE_VERSION" | indent

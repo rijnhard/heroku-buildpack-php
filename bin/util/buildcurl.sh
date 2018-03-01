@@ -28,7 +28,7 @@ buildcurl() {
 	mkdir -p "$cache_dir"
 	if [ ! -f $cache_dir/$binary.tar.gz ]; then
 		echo "         Compiling $binary for the first time will take a few minutes..." 1>&2
-		curl -L --get --retry 3 ${BUILDCURL_URL:="buildcurl.com"} \
+		curl -sSL --get --retry 3 ${BUILDCURL_URL:="buildcurl.com"} \
 			--data-urlencode recipe=$recipe \
 			--data-urlencode version=$version \
 			--data-urlencode target=$TARGET \
