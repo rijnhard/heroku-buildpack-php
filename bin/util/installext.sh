@@ -2,9 +2,9 @@ safe_source () {
     eval " \
         source $1 \
     ";
-    local version=${DEFAULT_VERSION:-}
+    local v=${DEFAULT_VERSION:-}
     unset DEFAULT_VERSION
-    echo $version
+    echo $v
 }
 
 install_ext () {
@@ -16,13 +16,10 @@ install_ext () {
     local ext_api=$(basename $ext_dir)
     local ext_buildpack="$BP_DIR/support/build/extensions/$ext_api/$ext"
 
-    # this will load the default version
-    local version=`safe_source $ext_buildpack`
-
     # if we have an ini config for the extension then we can install it
     if [[ -f "$ext_ini" ]]; then
         ext_so=$(php -r '$ini=parse_ini_file("'$ext_ini'"); echo $ext=$ini["zend_extension"]?:$ini["extension"]; exit((int)empty($ext));') # read .so name from .ini because e.g. opcache.so is named "zend-opcache"
-        notice_inline "ext - [ext:$ext] [version:$version] [so:$ext_so] [api:$ext_api]"
+        notice_inline "ext - [ext:$ext] [so:$ext_so] [api:$ext_api]"
         notice_inline "ext - [ext_dir:$ext_dir]"
         notice_inline "ext - [ext_buildpack:$ext_buildpack]"
 
@@ -30,6 +27,10 @@ install_ext () {
         if [[ ! -f "$ext_dir/$ext_so" ]]; then
             # if it exists then install the ext from heroku's repo
             if [[ -f "$ext_buildpack" ]]; then
+                # this will load the default version
+                local version=`safe_source $ext_buildpack`
+
+                notice_inline "ext - [version:$version]"
                 cachecurl "${S3_URL}/extensions/${ext_api}/${ext}-${version}.tar.gz" | tar xz -C $BUILD_DIR/.heroku/php
                 echo "- ${ext} (${reason}; downloaded)" | indent
                 cp "${ext_ini}" "${BUILD_DIR}/.heroku/php/etc/php/conf.d"
