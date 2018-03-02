@@ -1,5 +1,7 @@
 Notes:
-* all config files (php, nginx, apache and both include and full) go through a php_passthrough that is environment aware
+* all config files (php, nginx, apache and both include and full) go through a passthrough that is environment aware
+    * so if it has .php then it will get processed by php
+    * if not it has bash variable substitution like `${PORT}`
 * document WEB_CONCURRENCY=auto and default=6
 
 # Todo
