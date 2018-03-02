@@ -20,7 +20,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2/php
 mkdir -p "$CACHE_DIR"
 # for runtime compilations
-mkdir -p "$2/run"
+mkdir -p "$BUILD_DIR/.heroku/run"
 ENV_DIR=${3:-} # Anvil has none
 BP_DIR=$(cd $(dirname $0); cd ..; pwd)
 
