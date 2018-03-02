@@ -1,0 +1,5 @@
+
+# all of this has moved to heroku.conf.default
+# the problem is nginx still looks at /etc/nginx/nginx.conf
+# and the default one causes issues.
+# so this just has to be there for presence but has no settings

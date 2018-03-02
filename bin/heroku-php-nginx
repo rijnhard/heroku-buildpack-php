@@ -15,11 +15,13 @@ php_passthrough() {
     local dir=$(dirname "$1")
     local file=$(basename "$1")
     local out=$(basename "$file" .php)
+    # because dumping it in the code directory and all over the show is terrible
+    local parsed="$HEROKU_APP_DIR/.heroku/run/$out"
+
     if [[ "$out" != "$file" ]]; then
-        [[ $verbose ]] && echo "Interpreting ${1#$HEROKU_APP_DIR/} to $out" >&2
-        out="$dir/$out"
-        php -n "$1" > "$out"
-        echo "$out"
+        [[ $verbose ]] && echo "Interpreting ${1#$HEROKU_APP_DIR/} to $parsed" >&2
+        php -n "$1" > "$parsed"
+        echo "$parsed"
     else
         echo "$1"
     fi

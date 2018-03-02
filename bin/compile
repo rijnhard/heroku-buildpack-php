@@ -19,6 +19,8 @@ HHVM_VERSION=
 BUILD_DIR=$1
 CACHE_DIR=$2/php
 mkdir -p "$CACHE_DIR"
+# for runtime compilations
+mkdir -p "$2/run"
 ENV_DIR=${3:-} # Anvil has none
 BP_DIR=$(cd $(dirname $0); cd ..; pwd)
 
@@ -209,6 +211,8 @@ if grep -Fq "apache" Procfile || ! grep -Fq "nginx" Procfile; then
     APACHE_DIST_URL="$S3_URL/apache-$APACHE_VERSION.tar.gz"
     echo "- Apache $APACHE_VERSION" | indent
     buildcurl "$APACHE_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
+    # Apache; copy in our config
+    cp $BP_DIR/conf/apache2/httpd.conf.default $BUILD_DIR/.heroku/php/etc/apache2/httpd.conf
     # store Apache version in the slug for possible later evaluation
     mkdir -p $BUILD_DIR/.heroku/php/.versions/apache2
     echo $APACHE_VERSION > $BUILD_DIR/.heroku/php/.versions/apache2/apache2
@@ -219,6 +223,8 @@ if grep -Fq "nginx" Procfile; then
     NGINX_DIST_URL="$S3_URL/nginx-$NGINX_VERSION.tar.gz"
     echo "- Nginx $NGINX_VERSION" | indent
     buildcurl "$NGINX_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
+    # nginx; copy in our config
+    cp $BP_DIR/conf/nginx/nginx.conf.default $BUILD_DIR/.heroku/php/etc/nginx/nginx.conf
     # store Nginx version in the slug for possible later evaluation
     mkdir -p $BUILD_DIR/.heroku/php/.versions/nginx
     echo $NGINX_VERSION > $BUILD_DIR/.heroku/php/.versions/nginx/nginx
