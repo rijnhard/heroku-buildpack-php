@@ -1,5 +1,6 @@
 Notes:
 * all config files (php, nginx, apache and both include and full) go through a php_passthrough that is environment aware
+* document WEB_CONCURRENCY=auto and default=6
 
 # Todo
 * run scripts need to refer to buildpack location from packager/compile not from the composer buildpack

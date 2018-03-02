@@ -209,8 +209,6 @@ if grep -Fq "apache" Procfile || ! grep -Fq "nginx" Procfile; then
     APACHE_DIST_URL="$S3_URL/apache-$APACHE_VERSION.tar.gz"
     echo "- Apache $APACHE_VERSION" | indent
     buildcurl "$APACHE_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
-    # Apache; copy in our config
-    cp $BP_DIR/conf/apache2/httpd.conf.default $BUILD_DIR/.heroku/php/etc/apache2/httpd.conf
     # store Apache version in the slug for possible later evaluation
     mkdir -p $BUILD_DIR/.heroku/php/.versions/apache2
     echo $APACHE_VERSION > $BUILD_DIR/.heroku/php/.versions/apache2/apache2
