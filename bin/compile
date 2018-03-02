@@ -11,7 +11,7 @@ shopt -s dotglob
 
 STACK=${STACK:-cedar} # Anvil has none
 COMPOSER_VERSION=${COMPOSER_VERSION:-"1.6.3"}
-COMPOSER_INSTALL=${COMPOSER_INSTALL:-"--no-dev --prefer-dist --optimize-autoloader --no-interaction"}
+COMPOSER_INSTALL=${COMPOSER_INSTALL:-"--no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress"}
 APACHE_VERSION=${APACHE_VERSION:-"2.4.29"}
 NGINX_VERSION=${NGINX_VERSION:-"1.8.1"}
 PHP_VERSION=
@@ -204,25 +204,29 @@ if [[ "${HHVM_VERSION}" ]]; then
     export -f hhvm
 fi
 
-# todo split apache and nginx
-# teleforge, hacked this out since we dont need it
-# APACHE_DIST_URL="$S3_URL/apache-$APACHE_VERSION.tar.gz"
-# echo "- Apache $APACHE_VERSION" | indent
-# buildcurl "$APACHE_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
-# # Apache; copy in our config
-# cp $BP_DIR/conf/apache2/httpd.conf.default $BUILD_DIR/.heroku/php/etc/apache2/httpd.conf
-# # store Apache version in the slug for possible later evaluation
-# mkdir -p $BUILD_DIR/.heroku/php/.versions/apache2
-# echo $APACHE_VERSION > $BUILD_DIR/.heroku/php/.versions/apache2/apache2
+# if apache is used or nginx is not used then default to apache
+if grep -Fq "apache" Procfile || ! grep -Fq "nginx" Procfile; then
+    APACHE_DIST_URL="$S3_URL/apache-$APACHE_VERSION.tar.gz"
+    echo "- Apache $APACHE_VERSION" | indent
+    buildcurl "$APACHE_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
+    # Apache; copy in our config
+    cp $BP_DIR/conf/apache2/httpd.conf.default $BUILD_DIR/.heroku/php/etc/apache2/httpd.conf
+    # store Apache version in the slug for possible later evaluation
+    mkdir -p $BUILD_DIR/.heroku/php/.versions/apache2
+    echo $APACHE_VERSION > $BUILD_DIR/.heroku/php/.versions/apache2/apache2
+fi
 
-NGINX_DIST_URL="$S3_URL/nginx-$NGINX_VERSION.tar.gz"
-echo "- Nginx $NGINX_VERSION" | indent
-buildcurl "$NGINX_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
-# nginx; copy in our config
-cp $BP_DIR/conf/nginx/nginx.conf.default $BUILD_DIR/.heroku/php/etc/nginx/nginx.conf
-# store Nginx version in the slug for possible later evaluation
-mkdir -p $BUILD_DIR/.heroku/php/.versions/nginx
-echo $NGINX_VERSION > $BUILD_DIR/.heroku/php/.versions/nginx/nginx
+# if nginx is used
+if grep -Fq "nginx" Procfile; then
+    NGINX_DIST_URL="$S3_URL/nginx-$NGINX_VERSION.tar.gz"
+    echo "- Nginx $NGINX_VERSION" | indent
+    buildcurl "$NGINX_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
+    # nginx; copy in our config
+    cp $BP_DIR/conf/nginx/nginx.conf.default $BUILD_DIR/.heroku/php/etc/nginx/nginx.conf
+    # store Nginx version in the slug for possible later evaluation
+    mkdir -p $BUILD_DIR/.heroku/php/.versions/nginx
+    echo $NGINX_VERSION > $BUILD_DIR/.heroku/php/.versions/nginx/nginx
+fi
 
 # handle extensions for PHP
 if [[ "${PHP_VERSION}" ]]; then
