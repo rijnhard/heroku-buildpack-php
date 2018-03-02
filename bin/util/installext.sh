@@ -20,8 +20,6 @@ install_ext () {
     if [[ -f "$ext_ini" ]]; then
         ext_so=$(php -r '$ini=parse_ini_file("'$ext_ini'"); echo $ext=$ini["zend_extension"]?:$ini["extension"]; exit((int)empty($ext));') # read .so name from .ini because e.g. opcache.so is named "zend-opcache"
         notice_inline "ext - [ext:$ext] [so:$ext_so] [api:$ext_api]"
-        notice_inline "ext - [ext_dir:$ext_dir]"
-        notice_inline "ext - [ext_buildpack:$ext_buildpack]"
 
         # if <ext>.so is not in the env, then we need to try add it
         if [[ ! -f "$ext_dir/$ext_so" ]]; then
@@ -30,7 +28,7 @@ install_ext () {
                 # this will load the default version
                 local version=`safe_source $ext_buildpack`
 
-                notice_inline "ext - [version:$version]"
+                notice_inline "ext - [ext:$ext] [version:$version]"
                 cachecurl "${S3_URL}/extensions/${ext_api}/${ext}-${version}.tar.gz" | tar xz -C $BUILD_DIR/.heroku/php
                 echo "- ${ext} (${reason}; downloaded)" | indent
                 cp "${ext_ini}" "${BUILD_DIR}/.heroku/php/etc/php/conf.d"
