@@ -107,7 +107,7 @@ export COMPOSER_HOME=$CACHE_DIR/.composer
 mkdir -p $COMPOSER_HOME
 
 # if the build dir is not "/app", we symlink in the .heroku/php subdir (and only that, to avoid problems with other buildpacks) so that PHP correctly finds its INI files etc
-[[ $BUILD_DIR == '/app' ]] || ln -s $build_dir/.heroku/php /app/.heroku/php
+[[ $BUILD_DIR == '/app' ]] || ln -s $BUILD_DIR/.heroku/php /app/.heroku/php
 
 status "Bootstrapping..."
 
@@ -161,10 +161,10 @@ if [[ "${HHVM_VERSION}" ]]; then
     export -f hhvm
 fi
 
-if composer show -d "$build_dir/.heroku/php" --installed --quiet heroku-sys/php 2>/dev/null; then
+if composer show -d "$BUILD_DIR/.heroku/php" --installed --quiet heroku-sys/php 2>/dev/null; then
 	engine="php"
 	engine_r="php -r"
-elif composer show -d "$build_dir/.heroku/php" --installed --quiet heroku-sys/hhvm 2>/dev/null; then
+elif composer show -d "$BUILD_DIR/.heroku/php" --installed --quiet heroku-sys/hhvm 2>/dev/null; then
 	engine="hhvm"
 	engine_r="hhvm --php -r"
 fi
