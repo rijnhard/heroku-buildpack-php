@@ -8,7 +8,7 @@ hhvm.log.always_log_unhandled_exceptions = true
 hhvm.log.runtime_error_reporting_level = 8191
 hhvm.mysql.typed_results = false
 
-memory_limit = 128M
+memory_limit = <?=getenv('WEB_MEMORY')?:'128M'?>
 
 ; hhvm fcgi
 hhvm.server.type = fastcgi
