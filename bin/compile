@@ -126,7 +126,7 @@ fi
 
 # install deps for packager
 # todo can we remove this?
-buildcurl "$S3_URL/libraries/libmcrypt-2.5.8.tar.gz" | tar xz -C $BUILD_DIR/.heroku/php
+# buildcurl "$S3_URL/libraries/libmcrypt-2.5.8.tar.gz" | tar xz -C $BUILD_DIR/.heroku/php
 
 status "Installing Runtimes..."
 # fixme the order of this is wrong:
