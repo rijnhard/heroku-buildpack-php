@@ -134,7 +134,7 @@ status "Installing Runtimes..."
     # then determine the platform version
     # then install runtimes.
 
-if [[ "${PHP_VERSION}" ]]; then
+if [ ! -z "${PHP_VERSION}" ]; then
     PHP_DIST_URL="$S3_URL/php-$PHP_VERSION.tar.gz"
     echo "- PHP $PHP_VERSION" | indent
     buildcurl "$PHP_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
@@ -147,7 +147,7 @@ if [[ "${PHP_VERSION}" ]]; then
     mkdir -p $BUILD_DIR/.heroku/php/.versions/php
     echo $PHP_VERSION > $BUILD_DIR/.heroku/php/.versions/php/php
 fi
-if [[ "${HHVM_VERSION}" ]]; then
+if [ ! -z "${HHVM_VERSION}" ]; then
     HHVM_DIST_URL="$S3_URL/hhvm-$HHVM_VERSION.tar.gz"
     echo "- HHVM $HHVM_VERSION" | indent
     buildcurl "$HHVM_DIST_URL" | tar xz -C $BUILD_DIR/.heroku/php
