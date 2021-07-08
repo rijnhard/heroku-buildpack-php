@@ -62,6 +62,7 @@ function mkmetas($package, array &$metapaks, &$have_runtime_req = false) {
 // remove first arg (0)
 array_shift($argv);
 // base repos we need - no packagist, and the installer plugin path (first arg)
+// fixme this could be a problem in packager
 $repositories = [
 	["packagist" => false],
 	["type" => "path", "url" => array_shift($argv), "options" => ["symlink" => false]],
